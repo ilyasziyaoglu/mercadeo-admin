@@ -1,0 +1,14 @@
+.color {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.active {
+  border: 1px solid black;
+}
+
+button {
+  margin: 2px;
+}

@@ -1,0 +1,46 @@
+:host * :not(i) {
+  font-family: Optima,serif;
+}
+
+input {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+button {
+  background-color: black;
+  border-radius: 0;
+  color: white;
+  border: 1px solid black;
+  &:hover {
+    animation-name: button-hover;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes button-hover {
+  from {
+    background-color: black;
+    color: white;
+  }
+  to {
+    background-color: white;
+    color: black;
+  }
+}
+
+img {
+  width: 100%;
+}
+
+.row {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}

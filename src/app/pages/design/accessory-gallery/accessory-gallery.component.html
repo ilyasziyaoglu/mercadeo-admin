@@ -1,0 +1,12 @@
+<div class="row m-0" *ngIf="accessories">
+    <nb-card class="accessory col-sm-3 m-3 p-0" *ngFor="let accessory of accessories"
+             (click)="onSelectAccessory(accessory)">
+        <nb-card-header class="row p-2 d-flex justify-content-between">
+            <span>{{accessory.name | uppercase}}</span>
+            <span>{{accessory.price}} $</span>
+        </nb-card-header>
+        <nb-card-body class="d-flex justify-content-center">
+            <img [src]="accessory.src" [alt]="accessory.name">
+        </nb-card-body>
+    </nb-card>
+</div>

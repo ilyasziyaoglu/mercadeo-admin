@@ -1,0 +1,13 @@
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li *ngFor="let item of carouselItems"
+        (click)="currentCarouselItem = item"
+        [class]="item == currentCarouselItem ? 'active' : ''"
+    ></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img [src]="currentCarouselItem.src" class="d-block w-100" [alt]="currentCarouselItem.name">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.row {
+  margin: 0;
+}
+
+nb-card-header {
+  background-color: black;
+  color: white;
+  font-weight: lighter;
+}
+
+.model {
+  position: relative;
+  max-width: 200px;
+  cursor: pointer;
+}
+
+.model:hover {
+  top: -3px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+img {
+  width: auto;
+  max-width: 160px;
+  max-height: 120px;
+}

@@ -1,0 +1,57 @@
+<div class="banner-video-wrapper">
+    <video autoplay loop [volume]="0.05" class="banner-video" src="http://localhost:5000/homebanner/banner.mp4"></video>
+</div>
+
+<div class="row p-2 free-shipping">
+    <p class="default-text-properties">FREE SHIPPING WORLWIDE</p>
+</div>
+
+
+<br><br>
+<h2 class="default-text-properties">~ Limited Editions ~</h2>
+<br><br>
+<div class="row mt-4 mb-5 d-flex justify-content-center">
+  <div class="col-sm-3" *ngFor="let model of productModels">
+    <ngx-product-card [productModel]="model" [category]="'limited-edition'"></ngx-product-card>
+  </div>
+</div>
+
+<hr>
+<br><br>
+<h2 class="default-text-properties">~ Design Your Own Bag ~</h2>
+<br><br>
+<div class="row d-flex justify-content-center">
+    <!--  <div class="col-sm-3"></div>-->
+    <div class="col-sm-4 m-3">
+        <img class="material-img" src="http://localhost:5000/material/leather.png" alt="Leather">
+        <p class="pt-3 pb-3 default-text-properties">LEATHER</p>
+    </div>
+    <div class="col-sm-4 m-3">
+        <img class="material-img" src="http://localhost:5000/material/mesh.png" alt="Mesh">
+        <p class="pt-3 pb-3 default-text-properties">MESH</p>
+    </div>
+    <!--  <div class="col-sm-3"></div>-->
+</div>
+
+<hr>
+
+<br><br>
+<h2 class="default-text-properties">~ The Making of a Bag ~</h2>
+<br><br>
+
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-9">
+        <div class="how-to-made-video-wrapper">
+            <video controls src="http://localhost:5000/homebanner/howtomade.mp4"></video>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<br><br>
+<h2 class="default-text-properties">~ Contact Us ~</h2>
+<br><br>
+
+<ngx-contact></ngx-contact>
+<br><br>

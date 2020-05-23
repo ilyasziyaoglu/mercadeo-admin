@@ -1,0 +1,33 @@
+<div class="row m-3 p-0 w-100 design-area">
+    <ngx-desktop [model]="currentModel" [accessories]="currentAccessories"
+                 [currentElement]="currentElement"></ngx-desktop>
+</div>
+<div class="row m-3 p-0 w-100">
+    <mat-tab-group class="w-100" [selectedIndex]="currentMatTabIndex"
+                   (selectedIndexChange)="currentMatTabIndex = $event">
+
+        <mat-tab label="MODEL">
+            <ng-template class="m-3 w-100" matTabContent>
+                <ngx-model-gallery [models]="models"
+                                   (modelSelect)="onModelSelect($event)">
+                </ngx-model-gallery>
+            </ng-template>
+        </mat-tab>
+
+        <mat-tab *ngFor="let type of accessories| keyvalue" [label]="type.key.toString() | uppercase">
+            <ng-template class="m-3 w-100" matTabContent>
+                <mat-tab-group class="m-3 w-100">
+                    <mat-tab *ngFor="let subtype of type.value | keyvalue"
+                             [label]="subtype.key.toString() | uppercase">
+                        <ng-template matTabContent>
+                            <ngx-accessory-gallery [accessories]="subtype.value"
+                                                   (accessorySelect)="onAccessorySelect($event)">
+                            </ngx-accessory-gallery>
+                        </ng-template>
+                    </mat-tab>
+                </mat-tab-group>
+            </ng-template>
+        </mat-tab>
+
+    </mat-tab-group>
+</div>

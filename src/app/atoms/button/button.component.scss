@@ -1,0 +1,21 @@
+button {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  &:hover {
+    animation-name: button-hover;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes button-hover {
+  from {
+    background-color: black;
+    color: white;
+  }
+  to {
+    background-color: white;
+    color: black;
+  }
+}

@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+}
+
+mat-icon {
+  font-size: 3rem;
+}
+
+.design-area {
+  position: relative;
+  width: 700px;
+  height: 738px;
+}
+
+.property-area {
+  overflow: scroll;
+  max-height: 650px;
+}
+
+.propertyies {
+  min-width: 250px;
+}
+
+.point {
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  cursor: pointer;
+  font-size: 1rem;
+}

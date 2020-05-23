@@ -1,0 +1,8 @@
+textarea {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  width: 100%;
+  &:hover {
+    border-color: black !important;
+  }
+}

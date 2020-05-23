@@ -1,0 +1,35 @@
+:host * :not(i) {
+  font-family: Optima,serif;
+}
+
+p {
+  font-size: 1.5rem;
+  margin: 1rem;
+}
+
+nb-select {
+  filter: grayscale(1);
+}
+
+input {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+.color {
+  display: block;
+  float: left;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.active {
+  transform: scale(1.2);
+  border: 1px solid black;
+}

@@ -1,0 +1,24 @@
+<nb-card>
+  <div class="row">
+    <div class="col-sm-3 p-3">
+      <img class="pointer" [routerLink]="['/pages/shop/detail', basket.productModel?.id, basket.product?.id]"
+              [src]="basket.productModel?.imgUrl"
+              [alt]="basket.product?.name">
+    </div>
+    <div class="col-sm-6 p-3 pt-5">
+      <h4 class="pointer" [routerLink]="['/pages/shop/detail', basket.productModel?.id, basket.product?.id]">{{basket.product?.name}}</h4>
+      <p>Product Code: {{basket.product?.code}}</p>
+      <p>Color: {{basket.productModel?.colorName}}</p>
+      <p>Size: {{basket.productSize}}</p>
+    </div>
+    <div class="col-sm-3 p-3">
+      <p class="m-3">Price: $ {{basket.price * basket.amount | number}}</p>
+      <input class="w-50 m-3" id="amount" nbInput fullWidth status="primary"
+             [(ngModel)]="basket.amount"
+             (ngModelChange)="onAmountUpdate()"
+             type="number" min="1" max="10"
+             placeholder="Quantity">
+      <button class="btn-lg rounded-0 w-50 m-3" (click)="onDeleteBasket()"><i class="far fa-trash-alt"></i></button>
+    </div>
+  </div>
+</nb-card>

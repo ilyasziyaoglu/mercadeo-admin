@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-sm">
+    <nb-list>
+      <nb-list-item>
+        <label for="name">Name</label>
+        <input id="name" [(ngModel)]="user.fullName" type="text" nbInput fullWidth status="primary" placeholder="Name">
+      </nb-list-item>
+      <nb-list-item>
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="user.email" type="text" nbInput fullWidth status="primary" placeholder="Email">
+      </nb-list-item>
+      <nb-list-item>
+        <label for="birthdate">Birth Date</label>
+        <br>
+        <input id="birthdate" class="w-100" fullWidth nbInput placeholder="Birth Date" [nbDatepicker]="birthdatepicker">
+        <nb-datepicker #birthdatepicker></nb-datepicker>
+      </nb-list-item>
+    </nb-list>
+  </div>
+  <div class="col-sm">
+    <nb-list>
+      <nb-list-item>
+        <label for="username">Username</label>
+        <input id="username" [(ngModel)]="user.username" type="text" nbInput fullWidth status="primary"
+               placeholder="Username">
+      </nb-list-item>
+      <nb-list-item>
+        <label for="gender">Gender</label>
+        <br>
+        <nb-select class="w-100 rounded-0" id="gender" fullWidth placeholder="Gender" [(selected)]="user.gender">
+          <nb-option value="">None</nb-option>
+          <nb-option value="man">Man</nb-option>
+          <nb-option value="woman">Woman</nb-option>
+          <nb-option value="bisexual">Besexual</nb-option>
+        </nb-select>
+      </nb-list-item>
+      <nb-list-item>
+        <label for="country">Country</label>
+        <br>
+        <nb-select class="w-100 rounded-0" id="country" fullWidth placeholder="Country" [(selected)]="user.country">
+          <nb-option value="">None</nb-option>
+          <nb-option value="usa">USA</nb-option>
+          <nb-option value="turkey">Turkey</nb-option>
+          <nb-option value="italia">Italia</nb-option>
+        </nb-select>
+      </nb-list-item>
+    </nb-list>
+  </div>
+</div>
+
+<br><br><br>
+<nb-card class="w-100">
+  <nb-card-header>
+    <h4 class="position-absolute">Addresses</h4>
+    <button (click)="addNewAddress()" class="btn-lg rounded-0 float-sm-right"><nb-icon icon="plus-outline"></nb-icon></button>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-list class="w-100">
+      <nb-list-item *ngFor="let address of addresses; let i = index">
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="addressname{{i}}">Address Name</label>
+            <input class="w-75" id="addressname{{i}}" [(ngModel)]="address.name" (change)="onAddressChange()" type="text" nbInput
+                   fullWidth status="primary" placeholder="Address Name">
+            <button (click)="deleteAddress(i)" class="w-25 btn rounded-0"><nb-icon icon="trash-2-outline"></nb-icon></button>
+          </div>
+          <div class="col-sm-8">
+            <label class="w-100" for="addressvalue{{i}}">Address Value</label>
+            <textarea id="addressvalue{{i}}" [(ngModel)]="address.value" (change)="onAddressChange()" type="text" nbInput
+                      fullWidth status="primary" placeholder="Address Value"></textarea>
+          </div>
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>
+
+<br><br>
+<button (click)="updateProfile()" class="btn-lg rounded-0 w-100">Update Profile</button>

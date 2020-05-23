@@ -1,0 +1,60 @@
+input {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+textarea {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  width: 100%;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+nb-select {
+  filter: grayscale(1);
+}
+
+nb-select.button {
+  border-color: lightgrey !important;
+  border-radius: 0 !important;
+  width: 100%;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+button {
+  background-color: black;
+  border-radius: 0;
+  color: white;
+  border: 1px solid black;
+  &:hover {
+    animation-name: button-hover;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes button-hover {
+  from {
+    background-color: black;
+    color: white;
+  }
+  to {
+    background-color: white;
+    color: black;
+  }
+}
+
+
+select {
+  border-color: lightgrey !important;
+  &:hover {
+    border-color: black !important;
+  }
+}

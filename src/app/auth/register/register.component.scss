@@ -1,0 +1,43 @@
+input {
+  padding: 0.8rem !important;
+  border-color: darkgray !important;
+  background-color: white !important;
+  border-radius: 0 !important;
+  &:hover {
+    border-color: black !important;
+  }
+}
+
+button {
+  background-color: black;
+  border-radius: 0;
+  color: white;
+  border: 1px solid black;
+  &:hover {
+    animation-name: button-hover;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes button-hover {
+  from {
+    background-color: black;
+    color: white;
+  }
+  to {
+    background-color: white;
+    color: black;
+  }
+}
+
+nb-select button {
+  border: 1px darkgray solid !important;
+  border-radius: 0 !important;
+  &:hover {
+    border-color: black !important;
+  }
+  &:focus {
+    border-color: black !important;
+  }
+}

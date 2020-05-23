@@ -1,0 +1,37 @@
+ <nb-card class="rounded-0 m-1 p-3">
+    <div class="row w-100 m-0 pt-3">
+        <label for="category">Category</label>
+        <nb-select multiple class="w-100 rounded-0" [(ngModel)]="filter.categories" id="category" fullWidth placeholder="Category">
+            <nb-option value="">All</nb-option>
+            <nb-option value="usa">Mag</nb-option>
+            <nb-option value="turkey">Tag</nb-option>
+            <nb-option value="italia">Yok</nb-option>
+        </nb-select>
+    </div>
+
+    <div class="row w-100 m-0 pt-3">
+        <label class="w-100">Color</label>
+        <div class="color" *ngFor="let color of colors"
+             [ngClass]="{'active': colorIncludes(color)}"
+             (click)="onColorSelect(color)"
+             [style.backgroundColor]="color.colorCode">
+        </div>
+    </div>
+
+    <div class="row w-100 m-0 pt-3">
+        <label class="w-100" for="min">Price</label>
+        <input class="col-sm mr-2" id="min" nbInput fullWidth status="primary"
+               [(ngModel)]="filter.minPrice"
+               type="number" min="0" max="9999"
+               placeholder="Min">
+        <input class="col-sm ml-2" id="max" nbInput fullWidth status="primary"
+               [(ngModel)]="filter.maxPrice"
+               type="number" min="0" max="9999"
+               placeholder="Max">
+    </div>
+
+    <div class="row w-100 m-0 pt-3">
+        <ngx-button (click)="onFilterEvent()" class="w-100" label="Filter" icon="fas fa-filter"></ngx-button>
+    </div>
+    <br>
+ </nb-card>

@@ -1,0 +1,33 @@
+img {
+  width: 100%;
+}
+
+p {
+  text-align: center;
+}
+
+nb-card {
+  cursor: pointer;
+  margin: 0;
+  &:hover {
+    border: 1px black solid;
+  }
+}
+nb-card-body {
+  padding: 0;
+}
+
+nb-card-footer {
+  padding: 0;
+}
+
+.mark-as-favorite {
+  position: absolute;
+  margin: 0.5rem;
+  right: 0;
+  &:hover {
+    cursor: pointer;
+    color: #cc0099;
+    transform: scale(1.5);
+  }
+}

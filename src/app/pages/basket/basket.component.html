@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-sm">
+        <br>
+        <h2>My Cart</h2>
+        <hr>
+        <div *ngIf="baskets.length">
+            <div class="row" *ngFor="let basket of baskets">
+                <ngx-basket-card class="w-100" [basket]="basket"></ngx-basket-card>
+            </div>
+
+            <div class="row w-100">
+                <p style="text-align: right" class="w-100">Your payment secured by SSL <i class="fas fa-shield-alt"></i>
+                </p>
+            </div>
+            <br><br>
+        </div>
+        <div *ngIf="!baskets.length">
+            <p class="text-center" style="margin-top: 200px">You have no items in your basket.</p>
+            <br>
+            <p class="text-center m-2"><a [routerLink]="['/pages/limited-edition']">Continue Shopping</a></p>
+        </div>
+    </div>
+    <div class="col-sm-4" *ngIf="baskets.length">
+        <br>
+        <h2>Order Summary</h2>
+        <hr>
+        <nb-card class="p-5">
+            <div class="row">
+                <h6 class="col-sm m-0 p-0">Subtotal:</h6>
+                <p class="col-sm">$ {{ calculateTotalPrice() | number}}</p>
+            </div>
+            <div class="row">
+                <h6 class="col-sm m-0 p-0">Shipping:</h6>
+                <p class="col-sm">$ 0</p>
+            </div>
+            <hr>
+            <div class="row">
+                <h5 class="col-sm m-0 p-0">Total: </h5>
+                <h6 class="col-sm">$ {{ calculateTotalPrice() | number}}</h6>
+            </div>
+            <br><br>
+            <div class="row">
+                <button class="btn-lg rounded-0 w-100" (click)="checkout()"><i class="fas fa-lock"></i> Checkout
+                </button>
+            </div>
+        </nb-card>
+    </div>
+</div>

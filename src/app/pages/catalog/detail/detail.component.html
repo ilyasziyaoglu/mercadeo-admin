@@ -1,0 +1,116 @@
+<div class="row" *ngIf="product">
+    <div class="col-sm-7">
+        <div *ngIf="productModel && productModel.imgUrl && productModel.imgUrls">
+            <img [src]="productModel.imgUrl" [alt]="product.name">
+            <img class="mt-1 mb-1" *ngFor="let imgUrl of productModel.imgUrls.split(',')" [src]="imgUrl"
+                 [alt]="product.name">
+        </div>
+    </div>
+    <div class="col-sm-5 detail">
+        <div class="row">
+            <p class="product-code">{{product.code}}</p>
+        </div>
+        <div class="row">
+            <p class="product-name">{{product.name}}</p>
+        </div>
+        <div class="row price">
+            <h6>$ {{productOption.price | number}}</h6>
+        </div>
+        <div class="row">
+            <p>Last {{productOption.stock}} product in stock</p>
+        </div>
+
+
+        <div class="row" *ngIf="product.productModels">
+            <div class="color" *ngFor="let model of product.productModels"
+                 [ngClass]="{'active': model == productModel}"
+                 (click)="onChangeModel(model)"
+                 [style.backgroundColor]="model.colorCode">
+            </div>
+        </div>
+
+
+        <div class="row size-area" *ngIf="productModel && productModel.productOptions">
+            <nb-radio-group id="size"
+                            [(ngModel)]="productOption"
+                            [ngModelOptions]="{standalone: true}">
+                <nb-radio *ngFor="let option of productModel.productOptions; let i = index"
+                          [checked]="option == productOption"
+                          [value]="option">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <i class="fas fa-ruler" [style.fontSize]="(1+i/2) + 'rem'"></i>
+                            {{ option.productSize }}
+                        </div>
+                        <div class="col-sm-12">$ {{option.price | number}}</div>
+                    </div>
+                </nb-radio>
+            </nb-radio-group>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 m-0 p-0">
+                <label for="quantity">Quantity</label><br>
+            </div>
+            <input class="w-25" id="quantity" [(ngModel)]="productOption.amount" type="number" min="1" max="10" nbInput
+                   fullWidth status="primary"
+                   placeholder="Amount">
+        </div>
+
+        <div class="row">
+            <ngx-button class="w-100"
+                        label="Add To Cart"
+                        icon="fas fas fa-cart-plus"
+                        (click)="onAddToBasket()"
+                        [routerLink]="['/pages/basket']"></ngx-button>
+        </div>
+        <div class="row">
+            <button (click)="onToggleFavorite()" class="btn-lg rounded-0 w-100">Add To Favorites
+                <nb-icon class="mark-as-favorite" [icon]="getHeartIcon()"></nb-icon>
+            </button>
+        </div>
+        <br>
+        <br>
+
+
+        <div class="row">
+            <h6>Product Info</h6>
+            <p>{{product.infos}}</p>
+            <ul>
+                <li *ngFor="let feature of features">
+                    {{ feature }}
+                </li>
+            </ul>
+        </div>
+        <br>
+
+        <div class="row">
+            <h6>Payment Options</h6>
+            <img class="payment-options-img"
+                 src="https://www.evtekstilial.com/images/companies/1/pg/pay_logos_v0.png?1553780533088"
+                 alt="Payment Types">
+        </div>
+        <br>
+        <br>
+
+        <div class="row">
+            <h6>Return and Refun Policy</h6>
+            <p>I’m a Return and Refund policy. I’m a great place to let your
+                customers
+                know what to do in case they are dissatisfied with their purchase. Having a straightforward refund
+                or
+                exchange policy is a great way to build trust and reassure your customers that they can buy with
+                confidence.</p>
+        </div>
+
+        <br><br>
+        <div class="row" *ngIf="productModel && productModel.videoUrl">
+            <video autoplay loop>
+                <source [src]="productModel.videoUrl">
+            </video>
+        </div>
+
+    </div>
+
+</div>
+

@@ -1,0 +1,43 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a class="logo" href="#" (click)="navigateHome()">Andriambavy</a>
+  </div>
+  <!--  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">-->
+  <!--    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>-->
+  <!--  </nb-select>-->
+</div>
+
+<div class="header-container w-50">
+  <ul class="w-100">
+    <li><a [routerLink]="['/pages/home']">Home</a></li>
+    <li><a [routerLink]="['/pages/design']">Design</a></li>
+    <li><a [routerLink]="['/pages/limited-edition']">Limited Edition</a></li>
+    <li><a [routerLink]="['/pages/jewelry']">Jewelry</a></li>
+    <li><a [routerLink]="['/pages/about']">About</a></li>
+    <li><a [routerLink]="['/pages/customer-care']">Customer Care</a></li>
+    <li><a [routerLink]="['/pages/contact']">Contact</a></li>
+  </ul>
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+
+<!--    <nb-action class="control-item">-->
+<!--      <nb-search type="rotate-layout"></nb-search>-->
+<!--    </nb-action>-->
+    <nb-action [routerLink]="['/pages/basket']" style="filter: grayscale(1)"><i class="fas fa-shopping-cart" [matBadge]="storage.baskets?.length" matBadgeColor="accent"></i></nb-action>
+    <nb-action [routerLink]="['/pages/user/profile']" style="filter: grayscale(1)"><i class="fas fa-heart" style="font-size: 1.5rem;" [matBadge]="storage.favorites?.length" matBadgeColor="accent"></i></nb-action>
+    <nb-action><i class="fas fa-bell" [matBadge]="storage.notifications?.length"></i></nb-action>
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
+      <nb-user [nbContextMenu]="userMenu"
+               [onlyPicture]="userPictureOnly"
+               [name]="user?.fullName"
+               [picture]="user?.imageUrl">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>
+

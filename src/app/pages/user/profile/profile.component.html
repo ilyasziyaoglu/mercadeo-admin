@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-sm-3">
+        <ngx-profile-card [user]="user"></ngx-profile-card>
+    </div>
+    <div class="col-sm-9">
+        <nb-card class="rounded-0">
+            <nb-card-body>
+
+                <nb-tabset>
+                    <nb-tab tabTitle="My Favorites" tabIcon="heart-outline" responsive>
+                        <!--TODO buraya product card list eklenecek-->
+                        <div class="row" *ngIf="!storage.favorites">
+                            <p class="text-center">Add your favorites to here by heart button :).</p>
+                            <hr>
+                            <p class="text-center"><a *ngIf="orders.length == 0" [routerLink]="['']">Shop Now</a></p>
+                        </div>
+                        <div class="row" *ngIf="storage.favorites">
+                            <ngx-product-card class="float-left" *ngFor="let productModel of storage.favorites"
+                                              [productModel]="productModel"></ngx-product-card>
+                        </div>
+                    </nb-tab>
+                    <nb-tab tabTitle="My Designs" tabIcon="color-palette-outline" responsive>
+                        <p class="text-center">Check the status of orders or browse through your past purchases.</p>
+                        <hr>
+                        <p class="text-center"><a *ngIf="orders.length == 0" [routerLink]="['']">Shop Now</a></p>
+                        <div class="row" *ngFor="let order of orders">
+                            <ngx-profile-order></ngx-profile-order>
+                        </div>
+                    </nb-tab>
+                    <nb-tab tabTitle="My Orders" tabIcon="list-outline" responsive>
+                        <p class="text-center">Check the status of orders or browse through your past purchases.</p>
+                        <hr>
+                        <p class="text-center"><a *ngIf="orders.length == 0" [routerLink]="['']">Shop Now</a></p>
+                        <div class="row" *ngFor="let order of orders">
+                            <ngx-profile-order></ngx-profile-order>
+                        </div>
+                    </nb-tab>
+                    <nb-tab tabTitle="About Me" tabIcon="info-outline" responsive>
+                        <ngx-profile-info [user]="user"></ngx-profile-info>
+                    </nb-tab>
+                </nb-tabset>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
