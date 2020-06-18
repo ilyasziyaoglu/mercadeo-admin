@@ -10,9 +10,7 @@ export class BasketService {
 
     add(basket) {
         if (window['storage'].baskets) {
-            if (this.includes(basket)) {
-                this.updateAmount(basket);
-            } else {
+            if (!this.includes(basket)) {
                 window['storage'].baskets.push(basket);
                 window['storage'].updateItem('baskets');
                 return true;
@@ -27,7 +25,7 @@ export class BasketService {
     includes(basket) {
         if (window['storage'].baskets) {
             for (const po of window['storage'].baskets) {
-                if (basket.id == po.id) {
+                if (basket.id === po.id) {
                     return true;
                 }
             }
@@ -36,12 +34,15 @@ export class BasketService {
         }
     }
 
-    updateAmount(newProduct) {
+    updateBasket(newProduct) {
         if (window['storage'].baskets) {
             let index = 0;
             for (const productInBasket of window['storage'].baskets) {
-                if (newProduct.id == productInBasket.id) {
-                    productInBasket.amount += newProduct.amount;
+                if (newProduct.id === productInBasket.id) {
+                    productInBasket.quantity += newProduct.quantity;
+                    productInBasket.selectedProductColors =
+                        productInBasket.selectedProductColors.concat(newProduct.selectedProductColors);
+                    productInBasket.selectedSizes = productInBasket.selectedSizes.concat(newProduct.selectedSizes);
                     window['storage'].updateItem('baskets');
                     return true;
                 }
@@ -55,7 +56,7 @@ export class BasketService {
         if (window['storage'].baskets) {
             let index = 0;
             for (const po of window['storage'].baskets) {
-                if (basket.id == po.id) {
+                if (basket.id === po.id) {
                     window['storage'].baskets.splice(index, 1);
                     window['storage'].updateItem('baskets');
                     return true;

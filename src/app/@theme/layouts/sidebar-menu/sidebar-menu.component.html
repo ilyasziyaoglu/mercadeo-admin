@@ -1,0 +1,5 @@
+<div class="vertical-menu" *ngFor="let item of MENU_ITEMS">
+  <a class="main-item" routerLink="{{item.link}}"
+     (click)="selectedItem = selectedItem !== item ? item : null"
+     [ngClass]="{'active': selectedItem == item}">{{item.title}}</a>
+</div>

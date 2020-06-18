@@ -26,6 +26,7 @@ import {
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {FormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [AppComponent, LoginComponent, RegisterComponent],
@@ -34,9 +35,7 @@ import {FormsModule} from '@angular/forms';
         BrowserAnimationsModule,
         HttpClientModule,
         AppRoutingModule,
-
         ThemeModule.forRoot(),
-
         NbSidebarModule.forRoot(),
         NbMenuModule.forRoot(),
         NbDatepickerModule.forRoot(),

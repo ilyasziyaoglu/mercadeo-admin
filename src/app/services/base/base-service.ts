@@ -31,6 +31,10 @@ export abstract class BaseService {
         this.httpService.doRequest(HttpMethod.DELETE, `${this.getBasePath()}/${id}`, '', cb);
     }
 
+    deleteAll(ids, cb): void {
+        this.httpService.doRequest(HttpMethod.POST, `${this.getBasePath()}/delete-all`, ids, cb);
+    }
+
     getAll(cb): void {
         this.httpService.doRequest(HttpMethod.GET, `${this.getBasePath()}${this.GUEST}/all`, '', cb);
     }

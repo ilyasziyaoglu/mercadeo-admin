@@ -28,7 +28,7 @@ export class LoginComponent {
     this.httpService.doRequest(HttpMethod.POST, 'auth/login', data, (response) => {
       window['storage'].setItem('token', response.token);
       window['storage'].setItem('user', response.userResponse);
-      this.router.navigateByUrl('pages/design');
+      this.router.navigateByUrl('pages/home');
     });
   }
 }

@@ -41,7 +41,9 @@ import { DARK_THEME } from './styles/theme.dark';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
-import {MatBadgeModule} from "@angular/material/badge";
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {SidebarMenuComponent} from './layouts/sidebar-menu/sidebar-menu.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -65,6 +67,7 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+    SidebarMenuComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -75,7 +78,7 @@ const PIPES = [
 ];
 
 @NgModule({
-	imports: [CommonModule, ...NB_MODULES, MatMenuModule, MatButtonModule, RouterModule, MatBadgeModule],
+    imports: [CommonModule, ...NB_MODULES, MatMenuModule, MatButtonModule, RouterModule, MatBadgeModule, MatIconModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })

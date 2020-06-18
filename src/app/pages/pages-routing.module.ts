@@ -2,70 +2,60 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 import {PagesComponent} from './pages.component';
-import {DesignComponent} from './design/design.component';
 import {NotFoundComponent} from './not-found/not-found.component';
-import {HomeComponent} from './home/home.component';
-import {BasketComponent} from './basket/basket.component';
-import {LimitedEditionComponent} from './limited-edition/limited-edition.component';
-import {JewelryComponent} from './jewelry/jewelry.component';
-import {CustomerCareComponent} from './customer-care/customer-care.component';
-import {ContactComponent} from './contact/contact.component';
-import {AboutComponent} from './about/about.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {BrandComponent} from './brand/brand.component';
+import {ColorComponent} from './color/color.component';
+import {SizeComponent} from './size/size.component';
+import {PropertyComponent} from './property/property.component';
+import {CategoryComponent} from './category/category.component';
+import {ProductComponent} from './product/product.component';
+import {UserComponent} from './user/user.component';
+import {OrderComponent} from './order/order.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
     {
-      path: 'home',
-      component: HomeComponent,
+      path: 'dashboard',
+      component: DashboardComponent,
     },
     {
-      path: 'design',
-      component: DesignComponent,
+      path: 'product',
+      component: ProductComponent,
     },
     {
-      path: 'limited-edition',
-      component: LimitedEditionComponent,
+      path: 'order',
+      component: OrderComponent,
     },
     {
-      path: 'jewelry',
-      component: JewelryComponent,
+      path: 'brand',
+      component: BrandComponent,
     },
     {
-      path: 'about',
-      component: AboutComponent,
+      path: 'color',
+      component: ColorComponent,
     },
     {
-      path: 'customer-care',
-      component: CustomerCareComponent,
+      path: 'size',
+      component: SizeComponent,
     },
     {
-      path: 'contact',
-      component: ContactComponent,
+      path: 'category',
+      component: CategoryComponent,
     },
     {
-      path: 'basket',
-      component: BasketComponent,
-    },
-    {
-      path: 'catalog',
-      loadChildren: () => import('./catalog/catalog.module')
-          .then(m => m.CatalogModule),
+      path: 'property',
+      component: PropertyComponent,
     },
     {
       path: 'user',
-      loadChildren: () => import('./user/user.module')
-        .then(m => m.UserModule),
-    },
-    {
-      path: 'maps',
-      loadChildren: () => import('./maps/maps.module')
-        .then(m => m.MapsModule),
+      component: UserComponent,
     },
     {
       path: '',
-      redirectTo: 'home',
+      redirectTo: 'dashboard',
       pathMatch: 'full',
     },
     {

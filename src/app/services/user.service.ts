@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {BaseService} from './base/base-service';
-import {HttpService} from './base/http.service';
+import { BaseService } from './base/base-service';
+import { HttpService } from './base/http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService extends BaseService {
 
-  basePath = '/user';
+  basePath = 'user';
 
   constructor(
       httpService: HttpService,
@@ -17,5 +17,10 @@ export class UserService extends BaseService {
 
   getBasePath(): string {
     return this.basePath;
+  }
+
+  logOut() {
+    window['storage'].setItem('token', null);
+    window['storage'].setItem('user', null);
   }
 }

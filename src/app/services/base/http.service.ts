@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import Swal from 'sweetalert2';
 import {Router} from '@angular/router';
 
 @Injectable({
@@ -51,8 +50,8 @@ export class HttpService {
         }));
     }
 
-    delete<T>(url: string, headers: HttpHeaders, id?: string): Observable<any> {
-        return this.http.delete<T>(url + id, {headers}).pipe(map((response: any) => {
+    delete<T>(url: string, headers: HttpHeaders): Observable<any> {
+        return this.http.delete<T>(url, {headers}).pipe(map((response: any) => {
             return response;
         }));
     }

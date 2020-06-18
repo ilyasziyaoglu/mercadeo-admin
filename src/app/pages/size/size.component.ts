@@ -1,61 +1,41 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {BrandService} from '../../services/brand.service';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
-import {UserService} from '../../services/user.service';
+import {ColorService} from '../../services/color.service';
+import {SizeService} from '../../services/size.service';
 
-export interface User {
+export interface Color {
     position: number;
     id: number;
-    username: string;
-    imageUrl: string;
-    fullName: string;
-    status: string;
-    email: string;
-    gender: string;
-    birthdate: string;
-    country: string;
-    phone: string;
-    addresses: string;
-    roles: string;
+    name: string;
+    imgUrl: string;
 }
 
 @Component({
-    selector: 'ngx-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.scss'],
+    selector: 'ngx-color',
+    templateUrl: './size.component.html',
+    styleUrls: ['./size.component.scss'],
 })
-export class UserComponent implements OnInit {
+export class SizeComponent implements OnInit {
 
-    data: Array<User> = [];
-    displayedColumns: string[] = [
-        'select',
-        'operations',
-        'position',
-        'id',
-        'username',
-        'imageUrl',
-        'fullName',
-        'status',
-        'email',
-        'phone',
-        'gender',
-        'birthdate',
-        'country',
-        'roles',
-        'addresses',
-    ];
-    dataSource = new MatTableDataSource<User>(this.data);
-    selection = new SelectionModel<User>(true, []);
-    private infoElement: any;
+    data: Array<Color> = [];
+    displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name'];
+    dataSource = new MatTableDataSource<Color>(this.data);
+    selection = new SelectionModel<Color>(true, []);
+    private editMode: boolean = false;
+    private editElement: any;
 
     constructor(
-        private service: UserService,
+        private fb: FormBuilder,
+        private service: SizeService,
     ) {
     }
 
+    brandForm = this.fb.group({
+        name: ['', Validators.required],
+    });
     filterValue: string;
 
     ngOnInit() {
@@ -66,6 +46,50 @@ export class UserComponent implements OnInit {
             }
             this.dataSource.data = this.data;
         });
+    }
+
+    onAddNewBrand() {
+        if ( this.brandForm.valid ) {
+            if ( this.editMode ) {
+                this.service.put(this.brandForm.value, result => {
+                    if ( result ) {
+                        this.editElement.name = result.name;
+                        Swal.fire({
+                            title: 'Info',
+                            icon: 'success',
+                            text: 'Item saved successfully!',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Info',
+                            icon: 'error',
+                            text: 'Item can not save!',
+                        });
+                    }
+                });
+            } else {
+                this.service.post(this.brandForm.value, result => {
+                    if ( result ) {
+                        result.position = this.data.length;
+                        this.data.push(result);
+                        this.dataSource.data = this.data;
+                        Swal.fire({
+                            title: 'Info',
+                            icon: 'success',
+                            text: 'Item saved successfully!',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Info',
+                            icon: 'error',
+                            text: 'Item can not save!',
+                        });
+                    }
+                });
+            }
+        } else {
+            this.brandForm.markAllAsTouched();
+        }
     }
 
     /** Whether the number of selected elements matches the total number of rows. */
@@ -83,7 +107,7 @@ export class UserComponent implements OnInit {
     }
 
     /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: User): string {
+    checkboxLabel(row?: Color): string {
         if ( !row ) {
             return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
         }
@@ -95,6 +119,7 @@ export class UserComponent implements OnInit {
             if ( result ) {
                 this.data = this.removeItem(id, this.data);
                 this.dataSource.data = this.data;
+                this.brandForm.reset();
                 Swal.fire({
                     title: 'Info',
                     icon: 'success',
@@ -143,8 +168,20 @@ export class UserComponent implements OnInit {
         });
     }
 
-    onClickInfo(element: any) {
-        this.infoElement = element;
+    onEditItem(element: any) {
+        this.editMode = true;
+        this.editElement = element;
+        this.brandForm = this.fb.group({
+            id: [element.id],
+            name: [element.name, Validators.required],
+        });
+    }
+
+    resetForm() {
+        this.brandForm = this.fb.group({
+            id: [null],
+            name: ['', Validators.required],
+        });
     }
 
     applyFilter(event: Event) {

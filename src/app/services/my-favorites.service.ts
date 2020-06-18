@@ -26,7 +26,7 @@ export class MyFavoritesService {
   includes(productModel) {
     if (window['storage'].favorites) {
       for (const pm of window['storage'].favorites) {
-        if (productModel.id == pm.id) {
+        if (productModel.id === pm.id) {
           return true;
         }
       }
@@ -39,7 +39,7 @@ export class MyFavoritesService {
     if (window['storage'].favorites) {
       let index = 0;
       for (const pm of window['storage'].favorites) {
-        if (productModel.id == pm.id) {
+        if (productModel.id === pm.id) {
           window['storage'].favorites.splice(index, 1);
           window['storage'].updateItem('favorites');
           return true;
