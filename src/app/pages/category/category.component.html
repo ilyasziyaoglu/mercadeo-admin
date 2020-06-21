@@ -28,18 +28,23 @@
                         <input type="number" placeholder="Order" formControlName="order" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <label for="parent1">1. Level Category</label>
-                        <mat-select id="parent1" [(ngModel)]="parent1" placeholder="Parent1"
-                        [disabled]="(editElement?.level || categoryForm.controls.level.value) === 1">
-                            <mat-option *ngFor="let category of getCategoriesByLevel(1)" [value]="category"> {{category.name}} </mat-option>
-                        </mat-select>
+                        <input type="number" placeholder="Price" formControlName="price" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <label for="parent2">2. Level Category</label>
-                        <mat-select id="parent2" [(ngModel)]="parent2" placeholder="Parent2"
-                                [disabled]="(editElement?.level || categoryForm.controls.level.value) < 2">
-                            <mat-option *ngFor="let category of getCategoriesByLevel(2)" [value]="category"> {{category.name}} </mat-option>
-                        </mat-select>
+                        <mat-form-field>
+                            <mat-label>Category1</mat-label>
+                            <mat-select formControlName="category1" [(ngModel)]="flevelCategory" placeholder="Category1">
+                                <mat-option *ngFor="let category of categoryTree" [value]="category">{{category.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-6">
+                        <mat-form-field>
+                            <mat-label>Category2</mat-label>
+                            <mat-select formControlName="category2" [(ngModel)]="slevelCategory" placeholder="Category2">
+                                <mat-option *ngFor="let category of flevelCategory?.children" [value]="category">{{category.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
                     <div class="col-sm-6">
                         <select formControlName="status" placeholder="Status">
