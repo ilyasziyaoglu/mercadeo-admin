@@ -4,66 +4,32 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {BrandService} from '../../services/brand.service';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
-import {User} from '../user/user.component';
-import {OrderService} from '../../services/order.service';
 
-export interface Order {
+export interface Brand {
     position: number;
     id: number;
-    user: User;
-    buyerNote: string;
+    name: string;
+    logoImgUrl: string;
     status: string;
-    history: string;
-    shippingInfo: string;
-    reason: string;
-    receiverName: string;
-    receiverPhone: string;
-    receiverEmail: string;
-    receiverAddress: string;
-    orderProducts: Array<OrderProduct>;
-}
-
-export interface OrderProduct {
-    id: number;
-    order: Order;
-    productId: number;
-    colorIds: Array<number>;
-    sizeIds: Array<number>;
 }
 
 @Component({
-    selector: 'ngx-order',
-    templateUrl: './order.component.html',
-    styleUrls: ['./order.component.scss'],
+    selector: 'ngx-brand',
+    templateUrl: './brand.component.html',
+    styleUrls: ['./brand.component.scss'],
 })
-export class OrderComponent implements OnInit {
+export class BrandComponent implements OnInit {
 
-    data: Array<Order> = [];
-    displayedColumns: string[] = [
-        'select',
-        'operations',
-        'position',
-        'id',
-        'user',
-        'buyerNote',
-        'status',
-        'history',
-        'shippingInfo',
-        'reason',
-        'receiverName',
-        'receiverPhone',
-        'receiverEmail',
-        'receiverAddress',
-        'orderProducts',
-    ];
-    dataSource = new MatTableDataSource<Order>(this.data);
-    selection = new SelectionModel<Order>(true, []);
+    data: Array<Brand> = [];
+    displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name', 'status', 'logoImgUrl'];
+    dataSource = new MatTableDataSource<Brand>(this.data);
+    selection = new SelectionModel<Brand>(true, []);
     private editMode: boolean = false;
     private editElement: any;
 
     constructor(
         private fb: FormBuilder,
-        private service: OrderService,
+        private service: BrandService,
     ) {
     }
 
@@ -143,7 +109,7 @@ export class OrderComponent implements OnInit {
     }
 
     /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: Order): string {
+    checkboxLabel(row?: Brand): string {
         if ( !row ) {
             return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
         }

@@ -13,8 +13,8 @@ export interface Category {
     level: number;
     order: number;
     imgUrl: string;
-    parent1: Category;
-    parent2: Category;
+    parent: Category;
+    children: Array<Category>;
 }
 
 @Component({
@@ -56,8 +56,7 @@ export class CategoryComponent implements OnInit {
         level: [null, Validators.required],
         order: [null, Validators.required],
         imgUrl: [''],
-        parent1: [null],
-        parent2: [null],
+        parent: [null],
         status: ['ACTIVE', Validators.required],
     });
     filterValue: string;
@@ -77,9 +76,7 @@ export class CategoryComponent implements OnInit {
             if ( this.editMode ) {
                 this.service.put(this.categoryForm.value, result => {
                     if ( result ) {
-                        this.editElement.name = result.name;
-                        this.editElement.logoImgUrl = result.logoImgUrl;
-                        this.editElement.status = result.status;
+                        this.onEditItem(result);
                         Swal.fire({
                             title: 'Info',
                             icon: 'success',
@@ -203,8 +200,7 @@ export class CategoryComponent implements OnInit {
             level: [element.level, Validators.required],
             order: [element.order, Validators.required],
             imgUrl: [element.imgUrl],
-            parent1: [element.parent1],
-            parent2: [element.parent2],
+            parent: [element.parent],
             status: [element.status, Validators.required],
         });
     }
@@ -231,12 +227,12 @@ export class CategoryComponent implements OnInit {
         if ( level === 1 ) {
             return this.data.filter(c => c.level === 1);
         }
-        if ( level === 2 && this.categoryForm.controls.parent1.value ) {
-            const levels2 = this.data.filter(c => c.level === 2
-                && c.parent1 &&
-                c.parent1.id === this.categoryForm.controls.parent1.value);
-            return levels2;
-        }
+        // if ( level === 2 && this.categoryForm.controls.parent1.value ) {
+        //     const levels2 = this.data.filter(c => c.level === 2
+        //         && c.parent1 &&
+        //         c.parent1.id === this.categoryForm.controls.parent1.value);
+        //     return levels2;
+        // }
     }
 
     onParent1Change() {

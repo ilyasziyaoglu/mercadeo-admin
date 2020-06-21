@@ -3,14 +3,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
-import {ColorService} from '../../services/color.service';
 import {SizeService} from '../../services/size.service';
 
-export interface Color {
+export interface Size {
     position: number;
     id: number;
     name: string;
-    imgUrl: string;
 }
 
 @Component({
@@ -20,10 +18,10 @@ export interface Color {
 })
 export class SizeComponent implements OnInit {
 
-    data: Array<Color> = [];
+    data: Array<Size> = [];
     displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name'];
-    dataSource = new MatTableDataSource<Color>(this.data);
-    selection = new SelectionModel<Color>(true, []);
+    dataSource = new MatTableDataSource<Size>(this.data);
+    selection = new SelectionModel<Size>(true, []);
     private editMode: boolean = false;
     private editElement: any;
 
@@ -53,7 +51,7 @@ export class SizeComponent implements OnInit {
             if ( this.editMode ) {
                 this.service.put(this.brandForm.value, result => {
                     if ( result ) {
-                        this.editElement.name = result.name;
+                        this.onEditItem(result);
                         Swal.fire({
                             title: 'Info',
                             icon: 'success',
@@ -107,7 +105,7 @@ export class SizeComponent implements OnInit {
     }
 
     /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: Color): string {
+    checkboxLabel(row?: Size): string {
         if ( !row ) {
             return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
         }

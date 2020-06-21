@@ -22,9 +22,9 @@ export class CategoryService extends BaseService {
     this.getAll(categories => {
       const firstLevels = categories.filter(c => c.level === 1);
       firstLevels.forEach(flevel => {
-        flevel.children = categories.filter(c => c.parentId === flevel.id);
+        flevel.children = categories.filter(c => c.parent && c.parent.id === flevel.id);
         flevel.children.forEach(slevel => {
-          slevel.children = categories.filter(c => c.parentId === slevel.id);
+          slevel.children = categories.filter(c => c.parent && c.parent.id === slevel.id);
         });
       });
       cb(firstLevels);

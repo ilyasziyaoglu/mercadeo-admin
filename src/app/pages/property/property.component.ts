@@ -54,8 +54,7 @@ export class PropertyComponent implements OnInit {
             if ( this.editMode ) {
                 this.service.put(this.brandForm.value, result => {
                     if ( result ) {
-                        this.editElement.key = result.key;
-                        this.editElement.value = result.value;
+                        this.onEditItem(result);
                         Swal.fire({
                             title: 'Info',
                             icon: 'success',

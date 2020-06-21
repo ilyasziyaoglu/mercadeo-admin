@@ -1,0 +1,102 @@
+<div class="row w-100 mt-3 ml-3">
+    <ngx-button (click)="resetForm(); editMode = false;" class="col-sm-1 m-1" data-toggle="modal" data-target=".bd-example-modal-lg" icon="fas fa-plus"></ngx-button>
+    <ngx-button (click)="onDeleteSelecteds()" class="col-sm-1 m-1" icon="fas fa-trash"></ngx-button>
+    <mat-form-field class="col-sm-4 ml-3">
+        <input [ngModelOptions]="{standalone: true}" matInput type="text" (keyup)="applyFilter($event)" placeholder="Filter"
+               [(ngModel)]="filterValue">
+        <button mat-button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Clear" (click)="filterValue=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+<div class="w-100 modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="brandForm" (ngSubmit)="onAddNewBrand()">
+                <div class="row p-3 m-0 w-100">
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Name" formControlName="name" nbInput>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Logo url" formControlName="logoImgUrl" nbInput>
+                    </div>
+                    <div class="col-sm-6">
+                        <select formControlName="status" placeholder="Status">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="DEACTIVE">DEACTIVE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row w-100 m-3 justify-content-center">
+                    <ngx-button class="w-50" type="submit" [label]="editMode ? 'Update' : 'Add'"></ngx-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row p-3 w-100 m-0 table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+            <th style="width: 30px" mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td style="width: 30px" mat-cell *matCellDef="let row">
+                <!--                                (click)="selection.toggle(row)"-->
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="operations">
+            <th style="width: 60px" mat-header-cell *matHeaderCellDef> Operations</th>
+            <td style="width: 60px" mat-cell *matCellDef="let element">
+                <mat-icon (click)="onEditItem(element)" data-toggle="modal" data-target=".bd-example-modal-lg">edit</mat-icon>
+                <mat-icon class="ml-2" (click)="onDeleteItem(element.id)">delete</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+            <th style="width: 30px" mat-header-cell *matHeaderCellDef> No.</th>
+            <td style="width: 30px" mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="id">
+            <th style="width: 50px" mat-header-cell *matHeaderCellDef> Id</th>
+            <td style="width: 50px" mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status</th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="logoImgUrl">
+            <th mat-header-cell *matHeaderCellDef> Logo Img Url</th>
+            <td mat-cell *matCellDef="let element"> <img class="table-row-img" [src]="element.logoImgUrl">  </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

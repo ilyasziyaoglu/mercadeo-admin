@@ -32,6 +32,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSortModule} from '@angular/material/sort';
 import {UserComponent} from './user/user.component';
 import {OrderComponent} from './order/order.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import {OrderComponent} from './order/order.component';
         MatInputModule,
         MatButtonModule,
         MatSortModule,
+        MatSlideToggleModule,
     ],
     declarations: [
         PagesComponent,

@@ -1,76 +1,40 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {BrandService} from '../../services/brand.service';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
-import {User} from '../user/user.component';
-import {OrderService} from '../../services/order.service';
+import {ColorService} from '../../services/color.service';
 
-export interface Order {
+export interface Color {
     position: number;
     id: number;
-    user: User;
-    buyerNote: string;
-    status: string;
-    history: string;
-    shippingInfo: string;
-    reason: string;
-    receiverName: string;
-    receiverPhone: string;
-    receiverEmail: string;
-    receiverAddress: string;
-    orderProducts: Array<OrderProduct>;
-}
-
-export interface OrderProduct {
-    id: number;
-    order: Order;
-    productId: number;
-    colorIds: Array<number>;
-    sizeIds: Array<number>;
+    name: string;
+    imgUrl: string;
 }
 
 @Component({
-    selector: 'ngx-order',
-    templateUrl: './order.component.html',
-    styleUrls: ['./order.component.scss'],
+    selector: 'ngx-color',
+    templateUrl: './color.component.html',
+    styleUrls: ['./color.component.scss'],
 })
-export class OrderComponent implements OnInit {
+export class ColorComponent implements OnInit {
 
-    data: Array<Order> = [];
-    displayedColumns: string[] = [
-        'select',
-        'operations',
-        'position',
-        'id',
-        'user',
-        'buyerNote',
-        'status',
-        'history',
-        'shippingInfo',
-        'reason',
-        'receiverName',
-        'receiverPhone',
-        'receiverEmail',
-        'receiverAddress',
-        'orderProducts',
-    ];
-    dataSource = new MatTableDataSource<Order>(this.data);
-    selection = new SelectionModel<Order>(true, []);
+    data: Array<Color> = [];
+    displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name', 'imgUrl'];
+    dataSource = new MatTableDataSource<Color>(this.data);
+    selection = new SelectionModel<Color>(true, []);
     private editMode: boolean = false;
     private editElement: any;
 
     constructor(
         private fb: FormBuilder,
-        private service: OrderService,
+        private service: ColorService,
     ) {
     }
 
     brandForm = this.fb.group({
         name: ['', Validators.required],
-        logoImgUrl: [''],
-        status: ['ACTIVE'],
+        imgUrl: [''],
     });
     filterValue: string;
 
@@ -143,7 +107,7 @@ export class OrderComponent implements OnInit {
     }
 
     /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: Order): string {
+    checkboxLabel(row?: Color): string {
         if ( !row ) {
             return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
         }
@@ -180,29 +144,29 @@ export class OrderComponent implements OnInit {
         }
     }
 
-  onDeleteSelecteds() {
-    const ids = this.selection.selected.map(value => value.id);
-    this.service.deleteAll(ids, result => {
-        if ( result ) {
-            this.selection.clear();
-            ids.forEach(id => {
-                this.data = this.removeItem(id, this.data);
-            });
-            this.dataSource.data = this.data;
-            Swal.fire({
-                title: 'Info',
-                icon: 'success',
-                text: 'Items deleted successfully!',
-            });
-        } else {
-            Swal.fire({
-                title: 'Info',
-                icon: 'error',
-                text: 'Items can not delete!',
-            });
-        }
-    });
-  }
+    onDeleteSelecteds() {
+        const ids = this.selection.selected.map(value => value.id);
+        this.service.deleteAll(ids, result => {
+            if ( result ) {
+                this.selection.clear();
+                ids.forEach(id => {
+                    this.data = this.removeItem(id, this.data);
+                });
+                this.dataSource.data = this.data;
+                Swal.fire({
+                    title: 'Info',
+                    icon: 'success',
+                    text: 'Items deleted successfully!',
+                });
+            } else {
+                Swal.fire({
+                    title: 'Info',
+                    icon: 'error',
+                    text: 'Items can not delete!',
+                });
+            }
+        });
+    }
 
     onEditItem(element: any) {
         this.editMode = true;
@@ -210,8 +174,7 @@ export class OrderComponent implements OnInit {
         this.brandForm = this.fb.group({
             id: [element.id],
             name: [element.name, Validators.required],
-            logoImgUrl: [element.logoImgUrl],
-            status: [element.status],
+            imgUrl: [element.imgUrl],
         });
     }
 
@@ -219,8 +182,7 @@ export class OrderComponent implements OnInit {
         this.brandForm = this.fb.group({
             id: [null],
             name: ['', Validators.required],
-            logoImgUrl: [''],
-            status: ['ACTIVE'],
+            imgUrl: [''],
         });
     }
 

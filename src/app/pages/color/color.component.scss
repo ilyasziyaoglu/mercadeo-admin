@@ -1,15 +1,6 @@
-.modal-content input {
+.modal-content input, select {
   width: 100%;
   margin: 15px;
-  border: 1px solid black;
-}
-
-.modal-content mat-form-field, textarea, label, mat-slide-toggle {
-  width: 90%;
-  margin: 15px;
-}
-
-.modal-content textarea {
   border: 1px solid black;
 }
 
@@ -28,9 +19,4 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
 .table-row-img {
   border-radius: 15px;
   height: 50px;
-}
-
-.color-img {
-  height: 30px;
-  width: 30px;
 }
