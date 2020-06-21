@@ -71,7 +71,7 @@ export class ProductComponent implements OnInit {
     ];
     dataSource = new MatTableDataSource<Product>(this.data);
     selection = new SelectionModel<Product>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
 
     productForm = this.fb.group({

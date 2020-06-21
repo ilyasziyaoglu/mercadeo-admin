@@ -24,7 +24,7 @@ export class BrandComponent implements OnInit {
     displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name', 'status', 'logoImgUrl'];
     dataSource = new MatTableDataSource<Brand>(this.data);
     selection = new SelectionModel<Brand>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
 
     constructor(

@@ -58,7 +58,7 @@ export class OrderComponent implements OnInit {
     ];
     dataSource = new MatTableDataSource<Order>(this.data);
     selection = new SelectionModel<Order>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
 
     constructor(

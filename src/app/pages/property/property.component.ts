@@ -24,7 +24,7 @@ export class PropertyComponent implements OnInit {
     displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'key', 'value'];
     dataSource = new MatTableDataSource<Color>(this.data);
     selection = new SelectionModel<Color>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
 
     constructor(

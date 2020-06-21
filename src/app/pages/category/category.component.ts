@@ -40,10 +40,14 @@ export class CategoryComponent implements OnInit {
     ];
     dataSource = new MatTableDataSource<Category>(this.data);
     selection = new SelectionModel<Category>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
     private parent1: number;
     private parent2: number;
+    categoryTree: Array<Category> = [];
+    flevelCategory: Category;
+    slevelCategory: Category;
+    tlevelCategory: Category;
 
     constructor(
         private fb: FormBuilder,
@@ -69,6 +73,8 @@ export class CategoryComponent implements OnInit {
             }
             this.dataSource.data = this.data;
         });
+
+        this.service.getCategoryTree(results => this.categoryTree = results);
     }
 
     onAddNewBrand() {

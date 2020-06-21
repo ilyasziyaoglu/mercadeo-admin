@@ -22,7 +22,7 @@ export class SizeComponent implements OnInit {
     displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name'];
     dataSource = new MatTableDataSource<Size>(this.data);
     selection = new SelectionModel<Size>(true, []);
-    private editMode: boolean = false;
+    editMode: boolean = false;
     private editElement: any;
 
     constructor(
