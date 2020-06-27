@@ -79,8 +79,10 @@ export class CategoryComponent implements OnInit {
 
     onAddNewBrand() {
         if ( this.categoryForm.valid ) {
+            const formValue = Object.assign({}, this.categoryForm.value);
+            formValue.parent = this.slevelCategory ? this.slevelCategory : this.flevelCategory;
             if ( this.editMode ) {
-                this.service.put(this.categoryForm.value, result => {
+                this.service.put(formValue, result => {
                     if ( result ) {
                         this.onEditItem(result);
                         Swal.fire({
@@ -97,7 +99,7 @@ export class CategoryComponent implements OnInit {
                     }
                 });
             } else {
-                this.service.post(this.categoryForm.value, result => {
+                this.service.post(formValue, result => {
                     if ( result ) {
                         result.position = this.data.length;
                         this.data.push(result);
@@ -209,17 +211,30 @@ export class CategoryComponent implements OnInit {
             parent: [element.parent],
             status: [element.status, Validators.required],
         });
+        let flevelid;
+        let slevelid;
+        if (element.level === 3) {
+            flevelid = element.parent.parent.id;
+            slevelid = element.parent.id;
+        } else if ( element.level === 2) {
+            flevelid = element.parent.id;
+        }
+
+        if ( flevelid ) {
+            this.flevelCategory = this.categoryTree.find(value => value.id === flevelid);
+        }
+        if ( slevelid ) {
+            this.slevelCategory = this.flevelCategory.children.find(value => value.id === slevelid);
+        }
     }
 
     resetForm() {
         this.categoryForm = this.fb.group({
-            id: [null],
             name: ['', Validators.required],
             level: [null, Validators.required],
             order: [null, Validators.required],
             imgUrl: [''],
-            parent1: [null],
-            parent2: [null],
+            parent: [null],
             status: ['ACTIVE', Validators.required],
         });
     }
@@ -227,25 +242,5 @@ export class CategoryComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    getCategoriesByLevel(level: number) {
-        if ( level === 1 ) {
-            return this.data.filter(c => c.level === 1);
-        }
-        // if ( level === 2 && this.categoryForm.controls.parent1.value ) {
-        //     const levels2 = this.data.filter(c => c.level === 2
-        //         && c.parent1 &&
-        //         c.parent1.id === this.categoryForm.controls.parent1.value);
-        //     return levels2;
-        // }
-    }
-
-    onParent1Change() {
-        // this.parent1 = this.data.filter(c => c.id === this.parent1);
-    }
-
-    onParent2Change() {
-
     }
 }

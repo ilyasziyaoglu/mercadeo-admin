@@ -120,24 +120,6 @@ export class SidebarMenuComponent implements OnInit {
       ],
     },
     {
-      title: 'Stock',
-      link: '/pages/stock',
-      children: [
-        {
-          title: 'Filter',
-          link: '/pages/stock/filter',
-        },
-        {
-          title: 'Create',
-          link: '/pages/stock/create',
-        },
-        {
-          title: 'Update',
-          link: '/pages/stock/update',
-        },
-      ],
-    },
-    {
       title: 'User',
       link: '/pages/user',
       children: [

@@ -2,7 +2,7 @@
     <nav class="w-100 navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
         <div class="navbar-brand d-flex justify-content-center align-content-center" [routerLink]="['/pages/home']">
             <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg">
-            <h5> Mercadeo</h5>
+            <h5> Textile All </h5>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -25,7 +25,7 @@
                 <nb-action *ngIf="storage.user" [routerLink]="['/pages/user/profile']">
                     <img class="rounded-circle" [src]="storage.user.imageUrl || defaultUserImg"> {{storage.user.fullName}}
                 </nb-action>
-                <nb-action *ngIf="storage.user" (click)="onLogOut()" [routerLink]="['/auth/login']">
+                <nb-action *ngIf="storage.user" (click)="onLogOut()" [routerLink]="['/']">
                     <mat-icon>exit_to_app</mat-icon> Exit
                 </nb-action>
             </nb-actions>

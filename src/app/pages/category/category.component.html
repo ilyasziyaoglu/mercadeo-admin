@@ -28,12 +28,12 @@
                         <input type="number" placeholder="Order" formControlName="order" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <input type="number" placeholder="Price" formControlName="price" nbInput>
-                    </div>
-                    <div class="col-sm-6">
                         <mat-form-field>
                             <mat-label>Category1</mat-label>
-                            <mat-select formControlName="category1" [(ngModel)]="flevelCategory" placeholder="Category1">
+                            <mat-select [(ngModel)]="flevelCategory"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [disabled]="categoryForm.controls.level.value === 1"
+                                        placeholder="Category1">
                                 <mat-option *ngFor="let category of categoryTree" [value]="category">{{category.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -41,7 +41,10 @@
                     <div class="col-sm-6">
                         <mat-form-field>
                             <mat-label>Category2</mat-label>
-                            <mat-select formControlName="category2" [(ngModel)]="slevelCategory" placeholder="Category2">
+                            <mat-select [(ngModel)]="slevelCategory"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [disabled]="categoryForm.controls.level.value === 1 || categoryForm.controls.level.value === 2"
+                                        placeholder="Category2">
                                 <mat-option *ngFor="let category of flevelCategory?.children" [value]="category">{{category.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -136,13 +139,13 @@
         <!-- Name Column -->
         <ng-container matColumnDef="parent1">
             <th mat-header-cell *matHeaderCellDef> Parent1 </th>
-            <td mat-cell *matCellDef="let element"> {{element.parent1?.name}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.parent?.parent ? element.parent?.parent?.name : element.parent?.name }} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="parent2">
             <th mat-header-cell *matHeaderCellDef> Parent2 </th>
-            <td mat-cell *matCellDef="let element"> {{element.parent2?.name}} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.level === 3 ? element.parent?.name : ''}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

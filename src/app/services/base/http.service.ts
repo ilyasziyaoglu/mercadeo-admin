@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn: 'root',
@@ -62,9 +63,10 @@ export class HttpService {
 
     doRequest(method: string, path: string, req: any, cb?: any) {
         let headers;
-        if (!path.startsWith('auth/')) {
+        const token = localStorage.getItem('token');
+        if (token !== 'null' && token !== 'undefined' && token !== null && token !== undefined) {
             headers = new HttpHeaders()
-                .append('Authorization', 'Bearer ' + localStorage.getItem('token'))
+                .append('Authorization', 'Bearer ' + token)
                 .append('Content-Type', 'application/json; charset=utf-8')
                 .append('Accept', '*/*');
         } else {
@@ -103,9 +105,20 @@ export class HttpService {
         }, err => {
             if (cb) {
                 cb(false);
-            }
-            if (err.status && err.status === 403) {
-                this.router.navigateByUrl('/auth/login');
+            } else if (err.status && err.status === 403) {
+                    Swal.fire({
+                    title: 'Warning',
+                    text: 'You must login first!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Login',
+                }).then((result) => {
+                    if (result.value) {
+                        this.router.navigateByUrl('/auth/login');
+                    }
+                });
             } else {
                 console.error(err);
             }
