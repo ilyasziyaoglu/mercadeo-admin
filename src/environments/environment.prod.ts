@@ -5,7 +5,7 @@
  */
 export const environment = {
   production: true,
-  baseApiUrl: 'http://35.223.167.35:8000/',
-  baseCarouselImgUrl: 'http://35.223.167.35:5000/carousel/',
+  baseApiUrl: 'http://34.72.159.36:8000/',
+  baseCarouselImgUrl: 'http://34.72.159.36:5000/carousel/',
   isAdmin: true,
 };
