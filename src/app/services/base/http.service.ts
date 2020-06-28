@@ -64,16 +64,16 @@ export class HttpService {
     doRequest(method: string, path: string, req: any, cb?: any) {
         let headers;
         const token = localStorage.getItem('token');
-        if (token !== 'null' && token !== 'undefined' && token !== null && token !== undefined) {
+        // if (token !== 'null' && token !== 'undefined' && token !== null && token !== undefined) {
             headers = new HttpHeaders()
                 .append('Authorization', 'Bearer ' + token)
                 .append('Content-Type', 'application/json; charset=utf-8')
                 .append('Accept', '*/*');
-        } else {
-            headers = new HttpHeaders()
-                .append('Content-Type', 'application/json; charset=utf-8')
-                .append('Accept', '*/*');
-        }
+        // } else {
+        //     headers = new HttpHeaders()
+        //         .append('Content-Type', 'application/json; charset=utf-8')
+        //         .append('Accept', '*/*');
+        // }
         path = environment.baseApiUrl + path;
         let request;
         switch (method) {

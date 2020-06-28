@@ -135,6 +135,7 @@ export class ProductComponent implements OnInit {
 
     onAddNewItem() {
         if ( this.productForm.valid ) {
+            this.productForm.controls.stocks.setValue(this.stocks);
             if ( this.editMode ) {
                 this.service.put(this.productForm.value, result => {
                     if ( result ) {
@@ -144,6 +145,7 @@ export class ProductComponent implements OnInit {
                             icon: 'success',
                             text: 'Item saved successfully!',
                         });
+                        this.resetForm();
                     } else {
                         Swal.fire({
                             title: 'Info',
@@ -163,6 +165,7 @@ export class ProductComponent implements OnInit {
                             icon: 'success',
                             text: 'Item saved successfully!',
                         });
+                        this.resetForm();
                     } else {
                         Swal.fire({
                             title: 'Info',
@@ -312,6 +315,7 @@ export class ProductComponent implements OnInit {
             features: [''],
             tags: [''],
         });
+        this.stocks = [];
     }
 
     applyFilter(event: Event) {

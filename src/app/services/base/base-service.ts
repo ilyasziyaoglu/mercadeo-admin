@@ -36,10 +36,14 @@ export abstract class BaseService {
     }
 
     getAll(cb): void {
-        this.httpService.doRequest(HttpMethod.GET, `${this.getBasePath()}${this.GUEST}/all`, '', cb);
+        this.httpService.doRequest(HttpMethod.GET, `${this.getBasePath()}${this.GUEST}/all`, '', results => {
+            cb(results.sort((a, b) => a.id - b.id));
+        });
     }
 
     filter(pageReq, cb): void {
-        this.httpService.doRequest(HttpMethod.POST, `${this.getBasePath()}${this.GUEST}/filter`, pageReq, cb);
+        this.httpService.doRequest(HttpMethod.POST, `${this.getBasePath()}${this.GUEST}/filter`, pageReq, results => {
+            cb(results.data ? results.sort((a, b) => a.id - b.id) : []);
+        });
     }
 }

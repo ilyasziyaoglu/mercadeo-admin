@@ -26,9 +26,9 @@ export class ProductService extends BaseService {
     };
     super.filter(pageReq, results => {
       if (cb) {
-        cb(results.data || []);
+        cb(results);
       } else {
-        this.products = results.data || [];
+        this.products = results;
       }
     });
   }
