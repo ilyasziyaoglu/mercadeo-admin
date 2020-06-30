@@ -4,6 +4,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
 import {ColorService} from '../../services/color.service';
+import {FileService} from '../../services/file.service';
+import {environment} from '../../../environments/environment';
 
 export interface Color {
     position: number;
@@ -20,19 +22,19 @@ export interface Color {
 export class ColorComponent implements OnInit {
 
     data: Array<Color> = [];
-    displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'name', 'imgUrl'];
+    displayedColumns: string[] = ['select', 'operations', 'id', 'name', 'imgUrl'];
     dataSource = new MatTableDataSource<Color>(this.data);
     selection = new SelectionModel<Color>(true, []);
     editMode: boolean = false;
-    private editElement: any;
 
     constructor(
         private fb: FormBuilder,
         private service: ColorService,
+        private fileService: FileService,
     ) {
     }
 
-    brandForm = this.fb.group({
+    form = this.fb.group({
         name: ['', Validators.required],
         imgUrl: [''],
     });
@@ -49,9 +51,9 @@ export class ColorComponent implements OnInit {
     }
 
     onAddNewBrand() {
-        if ( this.brandForm.valid ) {
+        if ( this.form.valid ) {
             if ( this.editMode ) {
-                this.service.put(this.brandForm.value, result => {
+                this.service.put(this.form.value, result => {
                     if ( result ) {
                         this.onEditItem(result);
                         Swal.fire({
@@ -68,7 +70,7 @@ export class ColorComponent implements OnInit {
                     }
                 });
             } else {
-                this.service.post(this.brandForm.value, result => {
+                this.service.post(this.form.value, result => {
                     if ( result ) {
                         result.position = this.data.length;
                         this.data.push(result);
@@ -88,7 +90,7 @@ export class ColorComponent implements OnInit {
                 });
             }
         } else {
-            this.brandForm.markAllAsTouched();
+            this.form.markAllAsTouched();
         }
     }
 
@@ -119,7 +121,7 @@ export class ColorComponent implements OnInit {
             if ( result ) {
                 this.data = this.removeItem(id, this.data);
                 this.dataSource.data = this.data;
-                this.brandForm.reset();
+                this.form.reset();
                 Swal.fire({
                     title: 'Info',
                     icon: 'success',
@@ -168,10 +170,19 @@ export class ColorComponent implements OnInit {
         });
     }
 
+    mapper(obj1, obj2) {
+        const keys = Object.keys(obj2);
+        keys.forEach(key => {
+            obj1[key] = obj2[key];
+        });
+        return obj1;
+    }
+
     onEditItem(element: any) {
         this.editMode = true;
-        this.editElement = element;
-        this.brandForm = this.fb.group({
+        const editElement = this.dataSource.data.find(item => item.id === element.id);
+        this.mapper(editElement, element);
+        this.form = this.fb.group({
             id: [element.id],
             name: [element.name, Validators.required],
             imgUrl: [element.imgUrl],
@@ -179,7 +190,7 @@ export class ColorComponent implements OnInit {
     }
 
     resetForm() {
-        this.brandForm = this.fb.group({
+        this.form = this.fb.group({
             id: [null],
             name: ['', Validators.required],
             imgUrl: [''],
@@ -189,5 +200,20 @@ export class ColorComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    uploadFile($event: Event) {
+        // @ts-ignore
+        const file = event.srcElement.files[0];
+        if (!file) {
+            return;
+        }
+        const formData: FormData = new FormData();
+        formData.append('file0', file, file.name);
+
+        this.form.controls.imgUrl.setValue(environment.loadingUrl);
+        this.fileService.uploadFile(formData, result => {
+            this.form.controls.imgUrl.setValue(environment.baseCDNUrl + result.fileName);
+        });
     }
 }

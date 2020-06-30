@@ -4,6 +4,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from '@angular/material/table';
 import {CategoryService} from '../../services/category.service';
+import {FileService} from '../../services/file.service';
+import {environment} from '../../../environments/environment';
 
 export interface Category {
     position: number;
@@ -28,7 +30,6 @@ export class CategoryComponent implements OnInit {
     displayedColumns: string[] = [
         'select',
         'operations',
-        'position',
         'id',
         'name',
         'status',
@@ -41,21 +42,18 @@ export class CategoryComponent implements OnInit {
     dataSource = new MatTableDataSource<Category>(this.data);
     selection = new SelectionModel<Category>(true, []);
     editMode: boolean = false;
-    private editElement: any;
-    private parent1: number;
-    private parent2: number;
     categoryTree: Array<Category> = [];
     flevelCategory: Category;
     slevelCategory: Category;
-    tlevelCategory: Category;
 
     constructor(
         private fb: FormBuilder,
         private service: CategoryService,
+        private fileService: FileService,
     ) {
     }
 
-    categoryForm = this.fb.group({
+    form = this.fb.group({
         name: ['', Validators.required],
         level: [null, Validators.required],
         order: [null, Validators.required],
@@ -64,6 +62,7 @@ export class CategoryComponent implements OnInit {
         status: ['ACTIVE', Validators.required],
     });
     filterValue: string;
+    file: any;
 
     ngOnInit() {
         this.service.getAll(results => {
@@ -78,8 +77,8 @@ export class CategoryComponent implements OnInit {
     }
 
     onAddNewBrand() {
-        if ( this.categoryForm.valid ) {
-            const formValue = Object.assign({}, this.categoryForm.value);
+        if ( this.form.valid ) {
+            const formValue = Object.assign({}, this.form.value);
             formValue.parent = this.slevelCategory ? this.slevelCategory : this.flevelCategory;
             if ( this.editMode ) {
                 this.service.put(formValue, result => {
@@ -119,7 +118,7 @@ export class CategoryComponent implements OnInit {
                 });
             }
         } else {
-            this.categoryForm.markAllAsTouched();
+            this.form.markAllAsTouched();
         }
     }
 
@@ -150,7 +149,7 @@ export class CategoryComponent implements OnInit {
             if ( result ) {
                 this.data = this.removeItem(id, this.data);
                 this.dataSource.data = this.data;
-                this.categoryForm.reset();
+                this.form.reset();
                 Swal.fire({
                     title: 'Info',
                     icon: 'success',
@@ -199,10 +198,19 @@ export class CategoryComponent implements OnInit {
         });
     }
 
-    onEditItem(element: Category) {
+    mapper(obj1, obj2) {
+        const keys = Object.keys(obj2);
+        keys.forEach(key => {
+            obj1[key] = obj2[key];
+        });
+        return obj1;
+    }
+
+    onEditItem(element: any) {
         this.editMode = true;
-        this.editElement = element;
-        this.categoryForm = this.fb.group({
+        const editElement = this.dataSource.data.find(item => item.id === element.id);
+        this.mapper(editElement, element);
+        this.form = this.fb.group({
             id: [element.id, Validators.required],
             name: [element.name, Validators.required],
             level: [element.level, Validators.required],
@@ -229,7 +237,7 @@ export class CategoryComponent implements OnInit {
     }
 
     resetForm() {
-        this.categoryForm = this.fb.group({
+        this.form = this.fb.group({
             name: ['', Validators.required],
             level: [null, Validators.required],
             order: [null, Validators.required],
@@ -242,5 +250,21 @@ export class CategoryComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    uploadFile($event: Event) {
+        // @ts-ignore
+        const file = event.srcElement.files[0];
+        if (!file) {
+            return;
+        }
+        const formData: FormData = new FormData();
+        formData.append('file0', file, file.name);
+
+        this.form.controls.imgUrl.setValue(environment.loadingUrl);
+        this.fileService.uploadFile(formData, result => {
+            this.form.controls.imgUrl.setValue(environment.baseCDNUrl + result.fileName);
+        });
     }
 }

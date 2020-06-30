@@ -21,11 +21,11 @@ export interface Color {
 export class PropertyComponent implements OnInit {
 
     data: Array<Color> = [];
-    displayedColumns: string[] = ['select', 'operations', 'position', 'id', 'key', 'value'];
+    displayedColumns: string[] = ['select', 'operations', 'id', 'key', 'value'];
     dataSource = new MatTableDataSource<Color>(this.data);
     selection = new SelectionModel<Color>(true, []);
     editMode: boolean = false;
-    private editElement: any;
+
 
     constructor(
         private fb: FormBuilder,
@@ -169,9 +169,18 @@ export class PropertyComponent implements OnInit {
         });
     }
 
+    mapper(obj1, obj2) {
+        const keys = Object.keys(obj2);
+        keys.forEach(key => {
+            obj1[key] = obj2[key];
+        });
+        return obj1;
+    }
+
     onEditItem(element: any) {
         this.editMode = true;
-        this.editElement = element;
+        const editElement = this.dataSource.data.find(item => item.id === element.id);
+        this.mapper(editElement, element);
         this.brandForm = this.fb.group({
             id: [element.id],
             key: [element.key, Validators.required],

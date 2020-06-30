@@ -13,26 +13,33 @@
 <div class="w-100 modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form [formGroup]="categoryForm" (ngSubmit)="onAddNewBrand()">
+            <form [formGroup]="form" (ngSubmit)="onAddNewBrand()">
                 <div class="row p-3 m-0 w-100">
                     <div class="col-sm-6">
                         <input type="text" placeholder="Name" formControlName="name" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Img Url" formControlName="imgUrl" nbInput>
+                        <label class="m-4">
+                            <img class="color-img m-2 rounded" [src]="form.controls.imgUrl.value">
+                            <input type="file" (change)="uploadFile($event)" style="display:none"/>
+                            <a mat-raised-button color="primary">
+                                <mat-icon>file_upload</mat-icon>
+                                Select File
+                            </a>
+                        </label>
                     </div>
                     <div class="col-sm-6">
-                        <input type="number" placeholder="Level" formControlName="level" nbInput>
+                        <input type="number" min="1" max="3" placeholder="Level" formControlName="level" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <input type="number" placeholder="Order" formControlName="order" nbInput>
+                        <input type="number" min="1" placeholder="Order" formControlName="order" nbInput>
                     </div>
                     <div class="col-sm-6">
                         <mat-form-field>
                             <mat-label>Category1</mat-label>
                             <mat-select [(ngModel)]="flevelCategory"
                                         [ngModelOptions]="{standalone: true}"
-                                        [disabled]="categoryForm.controls.level.value === 1"
+                                        [disabled]="form.controls.level.value === 1"
                                         placeholder="Category1">
                                 <mat-option *ngFor="let category of categoryTree" [value]="category">{{category.name}}</mat-option>
                             </mat-select>
@@ -43,7 +50,7 @@
                             <mat-label>Category2</mat-label>
                             <mat-select [(ngModel)]="slevelCategory"
                                         [ngModelOptions]="{standalone: true}"
-                                        [disabled]="categoryForm.controls.level.value === 1 || categoryForm.controls.level.value === 2"
+                                        [disabled]="form.controls.level.value === 1 || form.controls.level.value === 2"
                                         placeholder="Category2">
                                 <mat-option *ngFor="let category of flevelCategory?.children" [value]="category">{{category.name}}</mat-option>
                             </mat-select>
@@ -92,12 +99,6 @@
                 <mat-icon (click)="onEditItem(element)" data-toggle="modal" data-target=".bd-example-modal-lg">edit</mat-icon>
                 <mat-icon class="ml-2" (click)="onDeleteItem(element.id)">delete</mat-icon>
             </td>
-        </ng-container>
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-            <th style="width: 30px" mat-header-cell *matHeaderCellDef> No. </th>
-            <td style="width: 30px" mat-cell *matCellDef="let element"> {{element.position}} </td>
         </ng-container>
 
         <!-- Name Column -->

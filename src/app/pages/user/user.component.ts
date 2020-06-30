@@ -33,7 +33,6 @@ export class UserComponent implements OnInit {
     displayedColumns: string[] = [
         'select',
         'operations',
-        'position',
         'id',
         'username',
         'imageUrl',

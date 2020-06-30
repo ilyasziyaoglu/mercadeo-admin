@@ -11,6 +11,6 @@
 export const environment = {
   production: false,
   baseApiUrl: 'http://localhost:8000/',
-  baseCarouselImgUrl: 'http://localhost:5000/carousel/',
-  isAdmin: true,
+  baseCDNUrl: 'http://localhost:5000/',
+  loadingUrl: 'http://localhost:5000/z1pcpDCvLA5kf5SCqzPlkUxrkS3Cv5Ni.gif',
 };

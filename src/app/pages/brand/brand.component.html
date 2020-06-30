@@ -13,13 +13,20 @@
 <div class="w-100 modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form [formGroup]="brandForm" (ngSubmit)="onAddNewBrand()">
+            <form [formGroup]="form" (ngSubmit)="onAddNewBrand()">
                 <div class="row p-3 m-0 w-100">
                     <div class="col-sm-6">
                         <input type="text" placeholder="Name" formControlName="name" nbInput>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Logo url" formControlName="logoImgUrl" nbInput>
+                        <label class="m-4">
+                            <img class="color-img m-2 rounded" [src]="form.controls.logoImgUrl.value">
+                            <input type="file" (change)="uploadFile($event)" style="display:none"/>
+                            <a mat-raised-button color="primary">
+                                <mat-icon>file_upload</mat-icon>
+                                Select File
+                            </a>
+                        </label>
                     </div>
                     <div class="col-sm-6">
                         <select formControlName="status" placeholder="Status">
@@ -64,12 +71,6 @@
                 <mat-icon (click)="onEditItem(element)" data-toggle="modal" data-target=".bd-example-modal-lg">edit</mat-icon>
                 <mat-icon class="ml-2" (click)="onDeleteItem(element.id)">delete</mat-icon>
             </td>
-        </ng-container>
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-            <th style="width: 30px" mat-header-cell *matHeaderCellDef> No.</th>
-            <td style="width: 30px" mat-cell *matCellDef="let element"> {{element.position}} </td>
         </ng-container>
 
         <!-- Name Column -->

@@ -14,7 +14,7 @@
 <div class="w-100 modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form [formGroup]="productForm" (ngSubmit)="onAddNewItem()">
+            <form [formGroup]="form" (ngSubmit)="onAddNewItem()">
                 <div class="row p-3 m-0 w-100">
                     <div class="col-sm-6">
                         <input type="text" placeholder="Name" formControlName="name" nbInput>
@@ -28,7 +28,14 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Image url" formControlName="imgUrl" nbInput>
+                        <label class="m-4">
+                            <img class="color-img m-2 rounded" [src]="form.controls.imgUrl.value">
+                            <input type="file" (change)="uploadFile($event)" style="display:none"/>
+                            <a mat-raised-button color="primary">
+                                <mat-icon>file_upload</mat-icon>
+                                Select File
+                            </a>
+                        </label>
                     </div>
                     <div class="col-sm-6">
                         <input type="number" placeholder="Price" formControlName="price" nbInput>
@@ -96,7 +103,7 @@
 
                 <hr>
                 <h6 class="ml-5">Color - Photos</h6>
-                <div class="row w-100 m-0 p-3" *ngFor="let productColor of productForm.controls.productColors?.value">
+                <div class="row w-100 m-0 p-3" *ngFor="let productColor of form.controls.productColors?.value">
                     <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Color</mat-label>
@@ -119,7 +126,13 @@
                         <img class="color-img mt-3 rounded" [src]="productColor.imgUrl">
                     </div>
                     <div class="col-sm-5">
-                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="productColor.imgUrl" type="text" placeholder="Img url..." nbInput>
+                        <label class="m-4">
+                            <input type="file" (change)="productColor.imgUrl = uploadFileForProductColor($event)" style="display:none"/>
+                            <a mat-raised-button color="primary">
+                                <mat-icon>file_upload</mat-icon>
+                                Select File
+                            </a>
+                        </label>
                     </div>
                     <ngx-button class="mt-3 ml-3" (click)="onDeleteProductColor(productColor)" type="button" icon="fas fa-trash"></ngx-button>
                 </div>
@@ -135,7 +148,7 @@
                         <mat-form-field>
                             <mat-label>Color</mat-label>
                             <mat-select [ngModelOptions]="{standalone: true}" [(ngModel)]="stockColor" placeholder="Color">
-                                <mat-option *ngFor="let pc of productForm.controls.productColors?.value" [value]="pc"><img
+                                <mat-option *ngFor="let pc of form.controls.productColors?.value" [value]="pc"><img
                                         class="color-img rounded" [src]="pc.color.imgUrl"> {{pc.color.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -144,7 +157,7 @@
                         <mat-form-field>
                             <mat-label>Size</mat-label>
                             <mat-select [ngModelOptions]="{standalone: true}" [(ngModel)]="stockSize" placeholder="Size">
-                                <mat-option *ngFor="let size of productForm.controls.sizes?.value" [value]="size">{{size.name}}</mat-option>
+                                <mat-option *ngFor="let size of form.controls.sizes?.value" [value]="size">{{size.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -209,12 +222,6 @@
                 <mat-icon class="ml-2" (click)="onDeleteItem(element.id)">delete</mat-icon>
             </td>
         </ng-container>
-
-<!--        &lt;!&ndash; Position Column &ndash;&gt;-->
-<!--        <ng-container matColumnDef="position">-->
-<!--            <th style="width: 30px" mat-header-cell *matHeaderCellDef> No.</th>-->
-<!--            <td style="width: 30px" mat-cell *matCellDef="let element"> {{element.position}} </td>-->
-<!--        </ng-container>-->
 
         <!-- Name Column -->
         <ng-container matColumnDef="id">

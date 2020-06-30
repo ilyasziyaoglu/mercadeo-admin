@@ -13,6 +13,8 @@ import {Color} from '../color/color.component';
 import {Size} from '../size/size.component';
 import {SizeService} from '../../services/size.service';
 import {StockService} from '../../services/stock.service';
+import {FileService} from '../../services/file.service';
+import {environment} from '../../../environments/environment';
 
 export interface Product {
     position: number;
@@ -48,7 +50,6 @@ export class ProductComponent implements OnInit {
     displayedColumns: string[] = [
         'select',
         'operations',
-        // 'position',
         'id',
         'code',
         'name',
@@ -60,21 +61,12 @@ export class ProductComponent implements OnInit {
         'category3',
         'collection',
         'status',
-        // 'description',
-        // 'productColors',
-        // 'isColorsOptional',
-        // 'stocks',
-        // 'sizes',
-        // 'isSizesOptional',
-        // 'feature',
-        // 'tags',
     ];
     dataSource = new MatTableDataSource<Product>(this.data);
     selection = new SelectionModel<Product>(true, []);
     editMode: boolean = false;
-    private editElement: any;
 
-    productForm = this.fb.group({
+    form = this.fb.group({
         position: [null],
         id: [null],
         name: ['', Validators.required],
@@ -107,6 +99,7 @@ export class ProductComponent implements OnInit {
     stockSize: Size;
     stockAmount: number;
     stocks: Array<any> = [];
+    file: any;
 
     constructor(
         private fb: FormBuilder,
@@ -115,6 +108,7 @@ export class ProductComponent implements OnInit {
         private categoryService: CategoryService,
         private colorService: ColorService,
         private sizeService: SizeService,
+        private fileService: FileService,
     ) {
     }
 
@@ -134,10 +128,10 @@ export class ProductComponent implements OnInit {
     }
 
     onAddNewItem() {
-        if ( this.productForm.valid ) {
-            this.productForm.controls.stocks.setValue(this.stocks);
+        if ( this.form.valid ) {
+            this.form.controls.stocks.setValue(this.stocks);
             if ( this.editMode ) {
-                this.service.put(this.productForm.value, result => {
+                this.service.put(this.form.value, result => {
                     if ( result ) {
                         this.onEditItem(result);
                         Swal.fire({
@@ -155,7 +149,7 @@ export class ProductComponent implements OnInit {
                     }
                 });
             } else {
-                this.service.post(this.productForm.value, result => {
+                this.service.post(this.form.value, result => {
                     if ( result ) {
                         result.position = this.data.length;
                         this.data.push(result);
@@ -176,7 +170,7 @@ export class ProductComponent implements OnInit {
                 });
             }
         } else {
-            this.productForm.markAllAsTouched();
+            this.form.markAllAsTouched();
         }
     }
 
@@ -207,7 +201,7 @@ export class ProductComponent implements OnInit {
             if ( result ) {
                 this.data = this.removeItem(id, this.data);
                 this.dataSource.data = this.data;
-                this.productForm.reset();
+                this.form.reset();
                 Swal.fire({
                     title: 'Info',
                     icon: 'success',
@@ -256,15 +250,24 @@ export class ProductComponent implements OnInit {
         });
     }
 
+    mapper(obj1, obj2) {
+        const keys = Object.keys(obj2);
+        keys.forEach(key => {
+            obj1[key] = obj2[key];
+        });
+        return obj1;
+    }
+
     onEditItem(element: any) {
         this.editMode = true;
-        this.editElement = element;
+        const editElement = this.dataSource.data.find(item => item.id === element.id);
+        this.mapper(editElement, element);
         const sizeIds = element.sizes.map(value => value.id);
         element.productColors.forEach(pc => {
             pc.color = this.colors.find(color => pc.color.id === color.id);
         });
         this.stocks = element.stocks;
-        this.productForm = this.fb.group({
+        this.form = this.fb.group({
             id: [element.id],
             name: [element.name, Validators.required],
             brand: [this.brands.find(b => b.id === element.brand.id), Validators.required],
@@ -294,7 +297,7 @@ export class ProductComponent implements OnInit {
     }
 
     resetForm() {
-        this.productForm = this.fb.group({
+        this.form = this.fb.group({
             position: [null],
             id: [null],
             name: ['', Validators.required],
@@ -341,10 +344,10 @@ export class ProductComponent implements OnInit {
     }
 
     onSetAllStocks() {
-        if ( this.productForm.controls.productColors && this.productForm.controls.sizes ) {
+        if ( this.form.controls.productColors && this.form.controls.sizes ) {
             this.stocks = [];
-            this.productForm.controls.productColors.value.forEach(pc => {
-                this.productForm.controls.sizes.value.forEach(size => {
+            this.form.controls.productColors.value.forEach(pc => {
+                this.form.controls.sizes.value.forEach(size => {
                     const stock = {
                         color: pc.color,
                         size: size,
@@ -357,7 +360,7 @@ export class ProductComponent implements OnInit {
     }
 
     onAddProductColor() {
-        this.productForm.controls.productColors.value.push({
+        this.form.controls.productColors.value.push({
             color: this.colors[0],
             status: 'ACTIVE',
             imgUrl: '',
@@ -365,7 +368,36 @@ export class ProductComponent implements OnInit {
     }
 
     onDeleteProductColor(productColor: any) {
-        const index = this.productForm.controls.productColors.value.indexOf(productColor);
-        this.productForm.controls.productColors.value.splice(index, 1);
+        const index = this.form.controls.productColors.value.indexOf(productColor);
+        this.form.controls.productColors.value.splice(index, 1);
+    }
+
+    uploadFile($event: Event) {
+        // @ts-ignore
+        const file = event.srcElement.files[0];
+        if (!file) {
+            return;
+        }
+        const formData: FormData = new FormData();
+        formData.append('file0', file, file.name);
+
+        this.form.controls.imgUrl.setValue(environment.loadingUrl);
+        this.fileService.uploadFile(formData, result => {
+            this.form.controls.imgUrl.setValue(environment.baseCDNUrl + result.fileName);
+        });
+    }
+
+    uploadFileForProductColor($event: Event) {
+        // @ts-ignore
+        const file = event.srcElement.files[0];
+        if (!file) {
+            return;
+        }
+        const formData: FormData = new FormData();
+        formData.append('file0', file, file.name);
+
+        return this.fileService.uploadFile(formData, result => {
+            return environment.baseCDNUrl + result.fileName;
+        });
     }
 }

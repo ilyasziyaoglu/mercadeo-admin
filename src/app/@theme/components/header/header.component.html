@@ -1,26 +1,26 @@
 <div class="header-container w-100">
     <nav class="w-100 navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
         <div class="navbar-brand d-flex justify-content-center align-content-center" [routerLink]="['/pages/home']">
-            <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg">
-            <h5> TextileAll.com </h5>
+            <img style="width: 50px !important; height: 50px !important;" src="https://scontent.fist1-2.fna.fbcdn.net/v/t1.0-9/106243473_119146896510352_6949559226263346511_n.jpg?_nc_cat=106&_nc_sid=8bfeb9&_nc_ohc=Nu6i2Xr9sZQAX9QwfVG&_nc_ht=scontent.fist1-2.fna&oh=64b5409fbfae48ca63c976c3d09c2e7a&oe=5F1EE334">
+            <h5 class="p-2"> TextileAll.com </h5>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"><a [routerLink]="['/pages/home']">Home</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/shop']">Shop</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/customer-care']">Customer Care</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/about']">About</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/contact']">Contact</a></li>
-            </ul>
-        </div>
+<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--            <ul class="navbar-nav mr-auto">-->
+<!--                <li class="nav-item active"><a [routerLink]="['/pages/home']">Home</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/shop']">Shop</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/customer-care']">Customer Care</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/about']">About</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link" [routerLink]="['/pages/contact']">Contact</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
         <div class="header-container">
             <nb-actions size="small">
-                <nb-action [routerLink]="['/pages/basket']" style="filter: grayscale(1)"><i class="fas fa-shopping-cart" [matBadge]="storage.baskets?.length" matBadgeColor="accent"></i></nb-action>
-                <nb-action [routerLink]="['/pages/user/profile']" style="filter: grayscale(1)"><i class="fas fa-heart" style="font-size: 1.5rem;" [matBadge]="storage.favorites?.length" matBadgeColor="accent" matBadge></i></nb-action>
+<!--                <nb-action [routerLink]="['/pages/basket']" style="filter: grayscale(1)"><i class="fas fa-shopping-cart" [matBadge]="storage.baskets?.length" matBadgeColor="accent"></i></nb-action>-->
+<!--                <nb-action [routerLink]="['/pages/user/profile']" style="filter: grayscale(1)"><i class="fas fa-heart" style="font-size: 1.5rem;" [matBadge]="storage.favorites?.length" matBadgeColor="accent" matBadge></i></nb-action>-->
                 <nb-action *ngIf="!storage.user" [routerLink]="['/auth/login']">Log In</nb-action>
                 <nb-action *ngIf="storage.user" [routerLink]="['/pages/user/profile']">
                     <img class="rounded-circle" [src]="storage.user.imageUrl || defaultUserImg"> {{storage.user.fullName}}

@@ -42,7 +42,6 @@ export class OrderComponent implements OnInit {
     displayedColumns: string[] = [
         'select',
         'operations',
-        'position',
         'id',
         'user',
         'buyerNote',
@@ -59,7 +58,7 @@ export class OrderComponent implements OnInit {
     dataSource = new MatTableDataSource<Order>(this.data);
     selection = new SelectionModel<Order>(true, []);
     editMode: boolean = false;
-    private editElement: any;
+
 
     constructor(
         private fb: FormBuilder,
@@ -204,9 +203,18 @@ export class OrderComponent implements OnInit {
     });
   }
 
+    mapper(obj1, obj2) {
+        const keys = Object.keys(obj2);
+        keys.forEach(key => {
+            obj1[key] = obj2[key];
+        });
+        return obj1;
+    }
+
     onEditItem(element: any) {
         this.editMode = true;
-        this.editElement = element;
+        const editElement = this.dataSource.data.find(item => item.id === element.id);
+        this.mapper(editElement, element);
         this.brandForm = this.fb.group({
             id: [element.id],
             name: [element.name, Validators.required],
